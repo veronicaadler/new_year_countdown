@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 
+
 class Countdown extends Component {
     constructor(props) {
         super(props);
@@ -9,10 +10,14 @@ class Countdown extends Component {
             hours: 0,
             days: 0
         }
-        this.timer = this.timer.bind(this)
+        this.counter = this.counter.bind(this)
     }
 
-    timer() {
+    componentDidMount() {
+        setInterval(this.counter, 1000) 
+   }
+    
+   counter() {
         const currentDay = new Date();
         const NewYearsDay = new Date('January 1, 2022 00:00:00');
         let currentTime = currentDay.getTime();
@@ -22,53 +27,22 @@ class Countdown extends Component {
         let mincalc = Math.floor(secondscalc/60);
         let hourscalc = Math.floor(mincalc/60);
         let dayscalc = Math.floor(hourscalc/24);
-
+    
         hourscalc = hourscalc % 24;
         mincalc = mincalc % 60;
         secondscalc = secondscalc % 60;
 
-        this.setState (prevState => {
-            return {
-                seconds: prevState.seconds + secondscalc,
-                minutes: prevState.minutes + mincalc,
-                hours: prevState.hours + hourscalc,
-                days: prevState.days + dayscalc
-        }}) 
-    }
-
-    componentDidMount() {
-        {
-            const currentDay = new Date();
-            const NewYearsDay = new Date('January 1, 2022 00:00:00');
-            let currentTime = currentDay.getTime();
-            let NewYearsTime = NewYearsDay.getTime();
-            let time = NewYearsTime - currentTime;
-            let secondscalc = Math.floor(time/1000);
-            let mincalc = Math.floor(secondscalc/60);
-            let hourscalc = Math.floor(mincalc/60);
-            let dayscalc = Math.floor(hourscalc/24);
-    
-            hourscalc = hourscalc % 24;
-            mincalc = mincalc % 60;
-            secondscalc = secondscalc % 60;
-    
-            this.setState (prevState => {
-                return {
-                    seconds: prevState.seconds + secondscalc,
-                    minutes: prevState.minutes + mincalc,
-                    hours: prevState.hours + hourscalc,
-                    days: prevState.days + dayscalc
-            }}) 
-        }
-    
-    }
-
-
+        this.setState({
+                seconds: secondscalc,
+                minutes: mincalc,
+                hours: hourscalc,
+                days: dayscalc
+        })}
 
     render() {
     
         return (
-            <div onLoad={this.timer}>
+            <div>
                 <h1>New Year's Countdown</h1>
                 <div className="flex-container">
                     <div><h2>Days: {this.state.days}</h2></div>
